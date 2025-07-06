@@ -45,13 +45,12 @@ jobs:
           cd server
           CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o pmail_linux_amd64 main.go
 
-
-      # 安裝 Android NDK（交叉編譯 Go for Android）
-      - name: Set up Android NDK
-        uses: actions/setup-android@v3
+      - name: Setup Android NDK
+        uses: nttld/setup-ndk@v1.5.0
         with:
-          ndk-version: '25.1.8937393'  # 選擇 NDK 版本
-
+    # Exact version to use
+          ndk-version: '25.1.8937393'
+          
       # 編譯 Android ARM64 版本
       - name: Build Android (ARM64)
         run: |
