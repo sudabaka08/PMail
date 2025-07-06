@@ -49,7 +49,7 @@ jobs:
         uses: nttld/setup-ndk@v1.5.0
         with:
     # Exact version to use
-          ndk-version: '25b'
+          ndk-version: 'r25d'
           
       # 編譯 Android ARM64 版本
       - name: Build Android (ARM64)
