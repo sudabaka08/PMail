@@ -50,7 +50,7 @@ jobs:
       - name: Set up Android NDK
         uses: ndk-build/ndk-installer@v1
         with:
-          ndk-version: '25b'  # 選擇 NDK 版本
+          ndk-version: '25.1.8937393'  # 選擇 NDK 版本
 
       # 編譯 Android ARM64 版本
       - name: Build Android (ARM64)
