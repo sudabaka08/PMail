@@ -48,7 +48,7 @@ jobs:
 
       # 安裝 Android NDK（交叉編譯 Go for Android）
       - name: Set up Android NDK
-        uses: android-actions/setup-ndk@v1
+        uses: android-actions/setup-ndk@v2
         with:
           ndk-version: '25b'  # 選擇 NDK 版本
 
@@ -59,17 +59,11 @@ jobs:
           export CC=$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android21-clang
           CGO_ENABLED=1 GOOS=android GOARCH=arm64 CC=$CC go build -ldflags "-s -w" -o pmail_android_arm64 main.go
 
-      # 上傳 Android 版本
-      - name: Upload Android Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: pmail-android
-          path: server/pmail_android_arm64
-
       # 上傳構建產物
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: pmail-binaries
           path: |
             server/pmail_linux_amd64
+            server/pmail_android_arm64
