@@ -1,0 +1,53 @@
+name: Build Project
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # 安裝 Go
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'  # 替換為你的 Go 版本
+
+      # 安裝 Node.js（前端 Vue 編譯需要）
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      # 安裝 Yarn（前端依賴管理）
+      - name: Install Yarn
+        run: npm install -g yarn
+
+      # 編譯前端（Vue）
+      - name: Build Frontend
+        run: |
+          cd fe
+          yarn install
+          yarn build
+          cd ..
+          rm -rf server/listen/http_server/dist
+          cp -r fe/dist server/listen/http_server/
+
+      # 編譯後端（Go）
+      - name: Build Backend (Linux)
+        run: |
+          cd server
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o pmail_linux_amd64 main.go
+
+      # 上傳構建產物
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: pmail-binaries
+          path: |
+            server/pmail_linux_amd64
