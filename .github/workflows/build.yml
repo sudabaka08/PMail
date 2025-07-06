@@ -48,7 +48,7 @@ jobs:
 
       # 安裝 Android NDK（交叉編譯 Go for Android）
       - name: Set up Android NDK
-        uses: ndk-build/ndk-installer@v1
+        uses: actions/setup-android@v3
         with:
           ndk-version: '25.1.8937393'  # 選擇 NDK 版本
 
